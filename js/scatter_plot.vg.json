@@ -1,0 +1,69 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "CO2 Emissions & Population",
+    "width": 800,
+    "height": 600,
+    "description": "A scatterplot showing horsepower and miles per gallons for various cars.",
+    "data": {
+        "url": "https://raw.githubusercontent.com/CheeMinHao/fit3179-homework/main/data/co2_emissions_by_country.csv"
+    },
+    "params": [
+        {
+            "name": "Population_Above",
+            "value": "0",
+            "bind": {
+                "input": "range",
+                "min": 0,
+                "max": 100000000,
+                "step": 1000000,
+                "name": "Minimum Population"
+            }
+        }
+    ],
+    "transform": [
+        {"filter": "datum.Population > 0"},
+        {"filter": "datum.CO2Emissions > 0"},
+        {"filter": "datum.Population > Population_Above"}
+    ],
+    "mark": "point",
+    "encoding": {
+        "x": {
+            "field": "CO2Emissions",
+            "type": "quantitative",
+            "axis": {"tickCount": 7},
+            "scale": {
+                "type": "log",
+                "domain": [
+                    1000,
+                    20000000000
+                ]
+            }
+        },
+        "y": {
+            "field": "Population",
+            "type": "quantitative",
+            "axis": {"tickCount": 7},
+            "scale": {
+                "type": "log",
+                "domain": [
+                    1000,
+                    10000000000
+                ]
+            }
+        },
+        "tooltip": [
+            {
+                "field": "Country",
+                "type": "nominal"
+            },
+            {
+                "field": "CO2Emissions",
+                "type": "quantitative"
+            },
+            {
+                "field": "Population",
+                "type": "quantitative"
+            }
+        ]
+    }
+}
